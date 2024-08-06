@@ -1,8 +1,8 @@
-<div class="grid w-full min-h-dvh place-content-center">
+<div class="grid w-full h-[80dvh] place-content-center">
 <div class="w-1/4 mx-auto overflow-hidden bg-white rounded-lg shadow-md min-w-96 dark:bg-gray-800">
     <div class="px-6 py-4">
         <div class="flex justify-center mx-auto">
-            <img class="w-auto h-7 sm:h-8" src="https://merakiui.com/images/logo.svg" alt="">
+            <img class="w-auto h-7 sm:h-8" src="/images/lock.svg" alt="">
         </div>
 
         <h3 class="mt-3 text-xl font-medium text-center text-gray-600 dark:text-gray-200">Welcome Back</h3>
@@ -19,11 +19,10 @@
             </div>
 
             <div class="flex items-center justify-between mt-4">
-                <a href="/forget-password" class="text-sm text-gray-600 dark:text-gray-200 hover:text-gray-500">Forget Password?</a>
-
-                <button class="px-6 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
-                    Sign In
-                </button>
+                <a href="/forget-password" wire:navigate class="text-sm text-gray-600 dark:text-gray-200 hover:text-gray-500">Forget Password?</a>
+                <div class="">
+                    <livewire:partials.primary-link-button :url="'#'" :content="'Sign In'" />
+                </div>
             </div>
         </form>
     </div>
@@ -31,7 +30,7 @@
     <div class="flex items-center justify-center py-4 text-center bg-gray-50 dark:bg-gray-700">
         <span class="text-sm text-gray-600 dark:text-gray-200">Don't have an account? </span>
 
-        <a href="/sign-up" class="mx-2 text-sm font-bold text-blue-500 dark:text-blue-400 hover:underline">Register</a>
+        <a href="/sign-up" wire:navigate class="mx-2 text-sm font-bold hover:text-my_dk_orange hover:underline">Register</a>
     </div>
 </div>
 </div>

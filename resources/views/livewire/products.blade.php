@@ -1,6 +1,8 @@
 <div class="relative flex w-full h-full">
     {{-- SideBar Start --}}
-    <aside class="absolute top-0 bottom-0 z-50 flex flex-col justify-between transition-all bg-white -left-72 border-e h-dvh w-72" id="filter-menu">
+    <div class="absolute left-0 z-20 transition-all opacity-50 bg-my_white h-dvh" id="filter-backdrop">
+    </div>
+    <aside class="absolute top-0 bottom-0 z-50 flex flex-col justify-between transition-all opacity-0 bg-my_white border-e h-dvh w-72 -left-72" id="filter-menu">
         <div class="flex justify-end">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="shadow-lg cursor-pointer size-6" id="filter-close-btn">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -143,7 +145,7 @@
         </div>
       
         <div class="sticky inset-x-0 bottom-0 border-t border-gray-100">
-          <a href="#" class="flex items-center gap-2 p-4 bg-white hover:bg-gray-50">
+          <a href="#" class="flex items-center gap-2 p-4 bg-my_white hover:bg-gray-50">
             <img
               alt=""
               src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
@@ -166,7 +168,7 @@
     <div class="w-full">
         <div class="container px-6 py-4 mx-auto">
             <div class="mb-2">
-                <button type="button" id="filter-btn" class="inline-flex items-center px-6 py-2 font-medium tracking-wide text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                <button type="button" id="filter-btn" class="inline-flex items-center px-6 py-2 font-medium tracking-wide text-gray-900 rounded-md shadow-sm bg-my_white ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
                       </svg>
@@ -174,30 +176,22 @@
                     Filter
                   </button>
             </div>
-            <div class="section-heading">
-                <h1 class="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl dark:text-white">
-                    Products
-                </h1>
-            
-                <div class="flex mx-auto mt-2">
-                    <span class="inline-block w-40 h-1 bg-blue-500 rounded-full"></span>
-                    <span class="inline-block w-3 h-1 mx-1 bg-blue-500 rounded-full"></span>
-                    <span class="inline-block w-1 h-1 bg-blue-500 rounded-full"></span>
-                </div>
-            </div>
+            <livewire:partials.main-heading :heading="'Products'"/>
             <div class="grid grid-cols-1 gap-6 py-5 sm:grid-cols-2 lg:grid-cols-4">
-                <article class="flex flex-col items-center justify-center w-full max-w-sm mx-auto">
-                    <div class="w-full h-64 bg-gray-300 bg-center bg-cover rounded-lg shadow-md" style="background-image: url(https://images.unsplash.com/photo-1521903062400-b80f2cb8cb9d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1050&q=80)"></div>
+                @foreach ($products as $product)
+                <article class="flex flex-col items-center justify-center w-full max-w-sm mx-auto" wire:key="{{$product->id}}">
+                    <a class="w-full h-64 bg-gray-300 bg-center bg-no-repeat bg-contain border rounded-lg shadow-md" style="background-image: url({{$product->images[0]}})" href="/product/{{$product->id}}"></a>
                 
-                    <div class="w-56 -mt-10 overflow-hidden bg-white rounded-lg shadow-lg md:w-64 dark:bg-gray-800">
-                        <h3 class="py-2 font-bold tracking-wide text-center text-gray-800 uppercase dark:text-white">Nike Revolt</h3>
+                    <div class="w-56 -mt-10 overflow-hidden border rounded-lg shadow-lg bg-my_lt_grey md:w-64 dark:bg-my_dk_grey">
+                        <h3 class="py-2 font-bold tracking-wide text-center uppercase text-my_black dark:text-my_white">{{$product->name}}</h3>
                 
-                        <div class="flex items-center justify-between px-3 py-2 bg-gray-200 dark:bg-gray-700">
-                            <span class="font-bold text-gray-800 dark:text-gray-200">$129</span>
-                            <button class="px-2 py-1 text-xs font-semibold text-white uppercase transition-colors duration-300 transform bg-gray-800 rounded hover:bg-gray-700 dark:hover:bg-gray-600 focus:bg-gray-700 dark:focus:bg-gray-600 focus:outline-none">Add to cart</button>
+                        <div class="flex items-center justify-between px-3 py-2">
+                            <span class="font-bold text-my_black dark:text-gray-200">{{Number::currency($product->price)}}</span>
+                            <button class="px-2 py-1 text-xs font-semibold uppercase transition-colors duration-300 transform rounded bg-my_dk_grey text-my_white hover:bg-my_lt_grey hover:border hover:border-my_dk_grey hover:text-my_black dark:hover:bg-gray-600 focus:bg-gray-700 dark:focus:bg-gray-600 focus:outline-none">Add to cart</button>
                         </div>
                     </div>
                 </article>
+                @endforeach
             </div>
         </div>
     </div>
@@ -208,14 +202,22 @@
     const filter_btn = document.getElementById('filter-btn');
     const filter_close_btn = document.getElementById('filter-close-btn');
     const filter_menu = document.getElementById('filter-menu');
+    const filter_backdrop = document.getElementById('filter-backdrop');
+
+    function close_menu(){
+        filter_backdrop.classList.remove('inset-0');
+        filter_backdrop.classList.add('left-0');
+        filter_menu.classList.remove('left-0','opacity-100');
+        filter_menu.classList.add('-left-72','opacity-0');
+    }
 
     filter_btn.addEventListener('click', function(){
-        filter_menu.classList.remove('-left-72');
-        filter_menu.classList.add('left-0');
+        filter_backdrop.classList.remove('left-0');
+        filter_backdrop.classList.add('inset-0');
+        filter_menu.classList.remove('-left-72','opacity-0');
+        filter_menu.classList.add('left-0','opacity-100');
     });
 
-    filter_close_btn.addEventListener('click', function(){
-        filter_menu.classList.remove('left-0');
-        filter_menu.classList.add('-left-72');
-    });
+    filter_close_btn.addEventListener('click', function(){close_menu();});
+    filter_backdrop.addEventListener('click', function(){close_menu();});
 </script>
