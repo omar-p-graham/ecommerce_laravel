@@ -12,6 +12,7 @@ class Categories extends Component
         $categories = Category::where('is_active',true)->get();
         return view('livewire.categories',[
             'categories' => $categories
-        ]);
+        ])
+        ->title('Categories: Flex E-Store');
     }
 }

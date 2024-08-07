@@ -8,6 +8,7 @@ class Cart extends Component
 {
     public function render()
     {
-        return view('livewire.cart');
+        return view('livewire.cart')
+        ->title('Cart: Flex E-Store');
     }
 }

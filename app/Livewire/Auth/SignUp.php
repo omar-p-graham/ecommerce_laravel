@@ -8,6 +8,7 @@ class SignUp extends Component
 {
     public function render()
     {
-        return view('livewire.auth.sign-up');
+        return view('livewire.auth.sign-up')
+        ->title('Register: Flex E-Store');
     }
 }

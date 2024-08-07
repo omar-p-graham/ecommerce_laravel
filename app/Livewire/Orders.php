@@ -8,6 +8,7 @@ class Orders extends Component
 {
     public function render()
     {
-        return view('livewire.orders');
+        return view('livewire.orders')
+        ->title('Orders: Flex E-Store');
     }
 }

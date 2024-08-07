@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', HomePage::class);
 Route::get('/categories', Categories::class);
 Route::get('/products', Products::class);
-Route::get('/product/{product}', ProductDetails::class);
+Route::get('/product/{slug}', ProductDetails::class);
 Route::get('/my-cart', Cart::class);
 Route::get('/my-orders', Orders::class);
 Route::get('/my-order/{order}', OrderDetails::class);
