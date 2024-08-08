@@ -9,7 +9,7 @@ class Categories extends Component
 {
     public function render()
     {
-        $categories = Category::where('is_active',true)->get();
+        $categories = Category::where('is_active',true)->orderBy('name')->get();
         return view('livewire.categories',[
             'categories' => $categories
         ])

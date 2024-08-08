@@ -19,7 +19,7 @@
     <div class="flex flex-wrap items-center justify-center py-2 md:justify-between gap-x-4">
       @foreach ($brands as $brand)
         <div class="my-1 rounded-lg shadow-md sm:w-full md:w-40" wire:key="{{$brand->id}}">
-          <a href="#" wire:navigate>
+          <a href="/products?filterBrands[0]={{$brand->id}}" wire:navigate>
             <img src="{{url('storage', $brand->image)}}" alt="{{$brand->name}}" class="object-fill w-full rounded-t-lg md:h-20">
           </a>
           <div class="p-5 text-center">
@@ -40,7 +40,7 @@
       <div class="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
         @foreach ($featureds as $featured)
         <!-- Icon Block -->
-        <div class="flex flex-col justify-between text-center border border-gray-200 rounded-xl md:p-5 dark:border-neutral-700" wire:key="{{$featured->id}}">
+        <a href="/product/{{$featured->slug}}" class="flex flex-col justify-between text-center border border-gray-200 rounded-xl md:p-5 dark:border-neutral-700" wire:key="{{$featured->id}}">
           <!-- Icon -->
           <div class="flex items-center justify-center mx-auto overflow-hidden rounded-lg bg-gradient-to-br from-blue-600 to-violet-600">
             <img src="{{url('storage',$featured->images[0])}}" alt="" class="object-contain w-full aspect-square">
@@ -52,7 +52,7 @@
               {{$featured->name}}
             </h3>
           </div>
-        </div>
+        </a>
         <!-- End Icon Block -->
         @endforeach
       </div>

@@ -67,5 +67,25 @@
               </div>
             </div>
         </div>
+        <div class="w-full py-2">
+          <h3 class="font-bold">Related Products</h3>
+          <div class="flex flex-wrap gap-4 mt-2">
+            @foreach ($related_products as $related_product)
+              <a href="/product/{{$related_product->slug}}" class="flex flex-col justify-between text-center border border-gray-200 rounded-xl md:p-5 dark:border-neutral-700 w-60" wire:key="{{$related_product->id}}">
+                <!-- Icon -->
+                <div class="flex items-center justify-center mx-auto overflow-hidden rounded-lg bg-gradient-to-br from-blue-600 to-violet-600">
+                  <img src="{{url('storage',$related_product->images[0])}}" alt="" class="object-contain w-full aspect-square">
+                </div>
+                <!-- End Icon -->
+                
+                <div class="mt-3">
+                  <h3 class="text-sm font-semibold text-gray-800 sm:text-lg dark:text-neutral-200">
+                    {{$related_product->name}}
+                  </h3>
+                </div>
+              </a>
+            @endforeach
+          </div>
+        </div>
     </div>
 </div>

@@ -10,8 +10,8 @@ class HomePage extends Component
 {
     public function render()
     {
-        $brands = Brand::where('is_active', true)->limit(8)->get();
-        $featureds = Product::whereAll(['is_active','is_featured'],true)->limit(8)->get();
+        $brands = Brand::where('is_active', true)->get()->shuffle()->splice(0,8);
+        $featureds = Product::whereAll(['is_active','is_featured'],true)->get()->shuffle()->splice(0,8);
         return view('livewire.home-page',[
             'brands' => $brands,
             'featureds' => $featureds

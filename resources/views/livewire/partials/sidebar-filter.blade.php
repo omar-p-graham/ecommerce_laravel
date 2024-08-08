@@ -1,5 +1,5 @@
 {{-- SideBar Start --}}
-<div>
+<div class="h-dvh">
 <div class="absolute left-0 z-20 transition-all opacity-50 bg-my_white h-dvh" id="filter-backdrop">
 </div>
 <aside class="absolute top-0 bottom-0 z-50 flex flex-col justify-start transition-all opacity-0 bg-my_white border-e h-dvh w-72 -left-72" id="filter-menu">
@@ -16,7 +16,7 @@
             @foreach ($categories as $category)
                 <li class="mb-1" wire:key="{{$category->id}}">
                     <label for="{{$category->slug}}" class="flex items-center">
-                        <input type="checkbox" class="w-4 h-4 mr-2" id="{{$category->slug}}" value="{{$category->id}}">
+                        <input type="checkbox" class="w-4 h-4 mr-2" id="{{$category->slug}}" value="{{$category->id}}" wire:model="filterCategories">
                         <span class="text-lg">{{$category->name}}</span>
                     </label>
                 </li>
@@ -30,7 +30,7 @@
             @foreach ($brands as $brand)
                 <li class="mb-1" wire:key="{{$brand->id}}">
                     <label for="{{$brand->slug}}" class="flex items-center">
-                        <input type="checkbox" class="w-4 h-4 mr-2" id="{{$brand->slug}}" value="{{$brand->id}}">
+                        <input type="checkbox" class="w-4 h-4 mr-2" id="{{$brand->slug}}" value="{{$brand->id}}" wire:model="filterBrands">
                         <span class="text-lg">{{$brand->name}}</span>
                     </label>
                 </li>
@@ -43,17 +43,34 @@
         <ul>
             <li class="mb-1">
                 <label for="on_sale" class="flex items-center">
-                    <input type="checkbox" class="w-4 h-4 mr-2" id="on_sale" value="">
+                    <input type="checkbox" class="w-4 h-4 mr-2" id="on_sale" value="1" wire:model="filterOnSale">
                     <span class="text-lg">On Sale</span>
                 </label>
             </li>
             <li class="mb-1">
                 <label for="is_featured" class="flex items-center">
-                    <input type="checkbox" class="w-4 h-4 mr-2" id="is_featured" value="">
+                    <input type="checkbox" class="w-4 h-4 mr-2" id="is_featured" value="1" wire:model="filterIsFeatured">
                     <span class="text-lg">Is Featured</span>
                 </label>
             </li>
         </ul>
+      </div>
+      {{-- Price Range --}}
+      <div class="p-4 mb-5 bg-my_lt_grey">
+        <h2 class="underline">Price Range</h2>
+        <div class="">
+          <label for="min_price" class="block px-3 py-2 mb-1 overflow-hidden border border-gray-200 rounded-md shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
+            <span class="text-xs font-medium text-gray-700">Min. Price</span>
+            <input type="number" id="min_price" min="0" step="100" placeholder="Min. Price" class="w-full p-0 mt-1 border-none focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm" wire:model="filterMinPrice"/>
+          </label>
+          <label for="max_price" class="block px-3 py-2 overflow-hidden border border-gray-200 rounded-md shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
+            <span class="text-xs font-medium text-gray-700">Max. Price</span>
+            <input type="number" id="max_price" min="100" step="100" placeholder="Max. Price" class="w-full p-0 mt-1 border-none focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm" wire:model="filterMaxPrice"/>
+          </label>
+        </div>
+      </div>
+      <div class="p-4 mb-5">
+        <button type="button" wire:click="applyFilters">Apply Filters</button>
       </div>
     </div>
   
