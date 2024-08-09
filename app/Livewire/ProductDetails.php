@@ -9,6 +9,8 @@ class ProductDetails extends Component
 {
     public $slug;
     public $product;
+    public $productID;
+    public $productQuantity = 1;
 
     public function mount($slug)
     {

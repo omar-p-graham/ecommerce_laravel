@@ -14,6 +14,17 @@
                   </button>
             </div>
             <livewire:partials.main-heading :heading="'Products'"/>
+            <div class="w-full md:w-40">
+                <label for="sortBy" class="block text-sm font-medium text-gray-900">Sort</label>
+                <select name="sortBy" id="sortBy" class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm" wire:model.live="sortBy">
+                    <option value="">Relevance</option>
+                    <option value="latest">Latest</option>
+                    <option value="name_asc">Name [A-Z]</option>
+                    <option value="name_desc">Name [Z-A]</option>
+                    <option value="price_asc">Price [0-9]</option>
+                    <option value="price_desc">Price [9-0]</option>
+                </select>
+              </div>
             <div class="grid grid-cols-1 gap-6 py-5 sm:grid-cols-2 lg:grid-cols-4">
                 @foreach ($products as $product)
                 <article class="flex flex-col items-center justify-center w-full max-w-sm mx-auto" wire:key="{{$product->id}}">
@@ -24,8 +35,9 @@
                 
                         <div class="flex items-center justify-between px-3 py-2">
                             <span class="font-bold text-my_black dark:text-gray-200">{{Number::currency($product->price)}}</span>
-                            <button class="px-2 py-1 text-xs font-semibold uppercase transition-colors duration-300 transform rounded bg-my_dk_grey text-my_white hover:bg-my_lt_grey hover:border hover:border-my_dk_grey hover:text-my_black dark:hover:bg-gray-600 focus:bg-gray-700 dark:focus:bg-gray-600 focus:outline-none">Add to cart</button>
+                            <button class="px-2 py-1 text-xs font-semibold uppercase transition-colors duration-300 transform rounded bg-my_dk_grey text-my_white hover:bg-my_lt_grey hover:border hover:border-my_dk_grey hover:text-my_black dark:hover:bg-gray-600 focus:bg-gray-700 dark:focus:bg-gray-600 focus:outline-none" wire:click="addToCart({{$product->id}})" wire:loading.remove wire:target="addToCart({{$product->id}})">Add to cart</button>
                         </div>
+                        <span class="block mb-1 text-center" wire:loading wire:target="addToCart({{$product->id}})">Adding Item...</span>
                     </div>
                 </article>
                 @endforeach

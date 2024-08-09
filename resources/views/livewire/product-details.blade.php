@@ -56,10 +56,10 @@
                     </div>
                     <div class="my-10">
                       <div class="w-full mb-4 md:w-60">
-                        <livewire:partials.item-counter />
+                        <livewire:partials.item-counter :quantity="$productQuantity"/>
                       </div>
                       <div class="w-full md:w-60">
-                        <livewire:partials.primary-button :content="'Add to Cart'"/>
+                        <livewire:partials.primary-button :content="'Add to Cart'" :productid="$product->id"/>
                       </div>
                     </div>
                   </div>

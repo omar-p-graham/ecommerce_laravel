@@ -18,14 +18,14 @@
     <livewire:partials.main-heading :heading="'Top Brands'"/>
     <div class="flex flex-wrap items-center justify-center py-2 md:justify-between gap-x-4">
       @foreach ($brands as $brand)
-        <div class="my-1 rounded-lg shadow-md sm:w-full md:w-40" wire:key="{{$brand->id}}">
-          <a href="/products?filterBrands[0]={{$brand->id}}" wire:navigate>
+        <a href="/products?filterBrands[0]={{$brand->id}}" wire:navigate class="my-1 rounded-lg shadow-md sm:w-full md:w-40" wire:key="{{$brand->id}}">
+          <div>
             <img src="{{url('storage', $brand->image)}}" alt="{{$brand->name}}" class="object-fill w-full rounded-t-lg md:h-20">
-          </a>
-          <div class="p-5 text-center">
-            <a href="#" wire:navigate class="text-2xl font-bold tracking-tight">{{$brand->name}}</a>
           </div>
-        </div>
+          <div class="p-5 text-center">
+            <p class="text-2xl font-bold tracking-tight">{{$brand->name}}</p>
+          </div>
+        </a>
       @endforeach
     </div>
   </div>
