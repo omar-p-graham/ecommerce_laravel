@@ -65,7 +65,7 @@
               <span class="font-semibold">{{Number::currency($grandTotal+$tax+$shipping)}}</span>
             </div>
             @if ($items)
-              <livewire:partials.primary-button :content="'Checkout'" class="w-full mx-auto"/>
+              <livewire:partials.primary-link-button :url="'/checkout'" :content="'Checkout'"/>
             @endif
           </div>
         </div>

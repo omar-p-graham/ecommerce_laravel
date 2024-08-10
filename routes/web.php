@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\CartManagement;
 use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\ResetPassword;
@@ -19,11 +20,22 @@ Route::get('/categories', Categories::class);
 Route::get('/products', Products::class);
 Route::get('/product/{slug}', ProductDetails::class);
 Route::get('/my-cart', Cart::class);
-Route::get('/my-orders', Orders::class);
-Route::get('/my-order/{order}', OrderDetails::class);
-Route::get('/checkout', Checkout::class);
 
-Route::get('/login', Login::class);
-Route::get('/sign-up', SignUp::class);
-Route::get('/forgot-password', ForgotPassword::class);
-Route::get('/reset-password', ResetPassword::class);
+
+Route::middleware('guest')->group(function (){
+    Route::get('/login', Login::class);
+    Route::get('/sign-up', SignUp::class);
+    Route::get('/forgot-password', ForgotPassword::class)->name('password.request');
+    Route::get('/reset-password/{token}', ResetPassword::class)->name('password.reset');
+});
+
+Route::middleware('auth')->group(function (){
+    Route::get('/my-orders', Orders::class);
+    Route::get('/my-order/{order}', OrderDetails::class);
+    Route::get('/checkout', Checkout::class);
+    Route::get('logout',function(){
+        auth()->logout();
+        CartManagement::clearCookie();
+        return redirect('/');
+    });
+});

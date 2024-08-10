@@ -51,7 +51,7 @@
                     <div>
                       <h3>Description:</h3>
                       @if ($product->description)
-                        {{!! Str::markdown($product->description) !!}}
+                        {!! Str::markdown($product->description) !!}
                       @endif
                     </div>
                     <div class="my-10">
@@ -59,7 +59,7 @@
                         <livewire:partials.item-counter :quantity="$productQuantity"/>
                       </div>
                       <div class="w-full md:w-60">
-                        <livewire:partials.primary-button :content="'Add to Cart'" :productid="$product->id"/>
+                        <livewire:partials.primary-button :content="'Add to Cart'" :productid="$product->id" wire:click="addToCart({{$productID}})"/>
                       </div>
                     </div>
                   </div>
