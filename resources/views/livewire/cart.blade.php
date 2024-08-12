@@ -15,24 +15,24 @@
                 </tr>
               </thead>
               <tbody>
-                  @forelse ($items as $key => $item) 
+                  @forelse ($items as $item) 
                   <tr>
                     <td class="py-4">
                       <div class="flex items-center">
-                        <img class="w-16 h-16 mr-4" src="{{url('storage',$item['image'])}}" alt="Product image">
+                        <img class="w-16 h-16 mr-4" src="{{url('storage',$item['image'])}}" alt="{{$item['name']}}">
                         <a href="/product/{{$item['slug']}}" class="font-semibold hover:underline">{{$item['name']}}</a>
                       </div>
                     </td>
                     <td class="py-4">{{Number::currency($item['price'])}}</td>
                     <td class="py-4">
                       <div class="flex items-center">
-                        <button class="px-4 py-2 mr-2 border rounded-md" wire:click="decreaseItemQuantity({{$item['productID']}})">-</button>
+                        <button class="px-4 py-2 mr-2 border rounded-md" wire:click="decreaseItemQuantity({{$item['product_id']}})">-</button>
                         <span class="w-8 text-center">{{$item['quantity']}}</span>
-                        <button class="px-4 py-2 ml-2 border rounded-md" wire:click="increaseItemQuantity({{$item['productID']}})">+</button>
+                        <button class="px-4 py-2 ml-2 border rounded-md" wire:click="increaseItemQuantity({{$item['product_id']}})">+</button>
                       </div>
                     </td>
                     <td class="py-4">{{Number::currency($item['totalAmount'])}}</td>
-                    <td><button class="px-3 py-1 border-2 rounded-lg bg-slate-300 border-slate-400 hover:bg-red-500 hover:text-white hover:border-red-700" wire:click="removeItemFromCart({{$item['productID']}})"><span wire:loading.remove wire:target="removeItemFromCart({{$item['productID']}})">Remove</span><span wire:loading wire:target="removeItemFromCart({{$item['productID']}})">Removing...</span></button></td>
+                    <td><button class="px-3 py-1 border-2 rounded-lg bg-slate-300 border-slate-400 hover:bg-red-500 hover:text-white hover:border-red-700" wire:click="removeItemFromCart({{$item['product_id']}})"><span wire:loading.remove wire:target="removeItemFromCart({{$item['product_id']}})">Remove</span><span wire:loading wire:target="removeItemFromCart({{$item['product_id']}})">Removing...</span></button></td>
                   </tr>
                   @empty
                   <tr>
