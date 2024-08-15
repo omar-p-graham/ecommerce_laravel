@@ -1,0 +1,1 @@
+<a {{ $attributes->merge(['href' => '#','class' => 'px-6 py-2 font-medium tracking-wide capitalize transition-colors duration-300 transform rounded-lg text-lightest hover:bg-darkest bg-brand focus:outline-none border-2 border-brand hover:border-darkest dark:hover:bg-light dark:hover:text-darkest'])}} wire:navigate>{{$slot}}</a>

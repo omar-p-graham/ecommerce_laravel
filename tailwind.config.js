@@ -6,22 +6,28 @@ export default {
   ],
   theme: {
     extend: {},
-    /*colors:{
-      'my_white': '#FDFDFD', //rgb(255, 255, 255)
-      'my_green': '#527853', //rgb(82, 120, 83)
-      'my_beige': '#F9E8D9', //rgb(249, 232, 217)
-      'my_peach': '#F7B787', //rgb(247, 183, 135)
-      'my_lt_orange': '#EE7214', //rgb(238, 114, 20)
-      'my_dk_orange': '#DC5F00', //rgb(220, 95, 0)
-      'my_black': '#373A40', //rgb(55, 58, 64)
-      'my_lt_grey': '#EEEEEE', //rgb(238, 238, 238)
-      'my_dk_grey': '#686D76', //rgb(104, 109, 118)
-    },*/
+    colors:{
+      /*Theme Colors*/
+      'brand': '#F97316', //RGB(249, 115, 22)
+      'darkest': '#111827', //RGB(17, 24, 39)
+      'dark': '#2C3549', //RGB(44, 53, 73)
+      'mid': '#B5BBC7', //RGB(181, 187, 199)
+      'light': '#E8EDF2', //RGB(232, 237, 242)
+      'lightest': '#FFFFFF', //RGB(255, 255, 255)
+      /*Badges [Tailwind defaults]*/
+      'red-500': '#ef4444',
+      'orange-500': '#f97316',
+      'yellow-300': '#fde047',
+      'emerald-400': '#34d399',
+      'green-700': '#15803d',
+      'cyan-400': '#22d3ee',
+      'blue-500': '#3b82f6'
+    },
   },
-  darkMode: ['variant', [
+  /*darkMode: ['variant', [
     '@media (prefers-color-scheme: dark) { &:not(.light *) }',
     '&:is(.dark *)',
-  ]],
+  ]],*/
   plugins: [],
 }
 

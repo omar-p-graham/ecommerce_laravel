@@ -6,11 +6,12 @@
         <meta name="author" content="Omar P Graham">
         <meta name="linkedin" content="https://www.linkedin.com/in/omar-p-graham">
         <meta name="github" content="https://www.github.com/omar-p-graham">
+        <link rel="shortcut icon" href="/images/logo-icon.svg" type="image/x-icon">
         <title>{{ $title ?? 'Flex E-Store' }}</title>
         @vite('resources/css/app.css','resources/js/app.js')
         @livewireStyles
     </head>
-    <body class="bg-slate-200 dark:bg-gray-800">
+    <body class="bg-light dark:bg-darkest text-darkest dark:text-lightest">
         @livewire('partials.navbar')
         <main class="w-full">
             {{ $slot }}
