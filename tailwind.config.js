@@ -21,13 +21,11 @@ export default {
       'emerald-400': '#34d399',
       'green-700': '#15803d',
       'cyan-400': '#22d3ee',
-      'blue-500': '#3b82f6'
+      'blue-500': '#3b82f6',
+      'transparent': 'RGBA(0,0,0,0)'
     },
   },
-  /*darkMode: ['variant', [
-    '@media (prefers-color-scheme: dark) { &:not(.light *) }',
-    '&:is(.dark *)',
-  ]],*/
+  darkMode: 'selector',
   plugins: [],
 }
 

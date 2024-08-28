@@ -22,7 +22,7 @@ class ProductDetails extends Component
     {
         return view('livewire.product-details',[
             'product' => $this->product,
-            'related_products' => Product::where('category_id',$this->product->category_id)->whereNot('slug',$this->slug)->get()->shuffle()->splice(0,7)
+            'related_products' => Product::where('category_id',$this->product->category_id)->whereNot('slug',$this->slug)->get()->shuffle()->splice(0,9)
         ])
         ->title('Product Details: Flex E-Store');
     }

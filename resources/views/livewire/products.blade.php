@@ -1,8 +1,8 @@
-<div class="relative flex w-full h-full">
+<div class="relative flex w-full">
     <livewire:partials.sidebar-filter />
 
     {{-- Products Start --}}
-    <div class="w-full">
+    <div class="absolute inset-0 w-full">
         <div class="container px-6 py-4 mx-auto">
             <div class="mb-2">
                 <button type="button" id="filter-btn" class="inline-flex items-center px-6 py-2 font-medium tracking-wide text-gray-900 rounded-md shadow-sm bg-my_white ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
@@ -13,7 +13,7 @@
                     Filter
                   </button>
             </div>
-            <livewire:partials.main-heading :heading="'Products'"/>
+            <x-main-heading>Products</x-main-heading>
             <div class="w-full md:w-40">
                 <label for="sortBy" class="block text-sm font-medium text-gray-900">Sort</label>
                 <select name="sortBy" id="sortBy" class="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm" wire:model.live="sortBy">
@@ -24,22 +24,22 @@
                     <option value="price_asc">Price [0-9]</option>
                     <option value="price_desc">Price [9-0]</option>
                 </select>
-              </div>
-            <div class="grid grid-cols-1 gap-6 py-5 sm:grid-cols-2 lg:grid-cols-4">
+            </div>
+            <div class="grid items-center justify-center grid-cols-1 gap-6 py-5 my-5 auto-rows-[1fr] sm:grid-cols-2 lg:grid-cols-4">
                 @foreach ($products as $product)
-                <article class="flex flex-col items-center justify-center w-full max-w-sm mx-auto" wire:key="{{$product->id}}">
-                    <a class="w-full h-64 bg-gray-300 bg-center bg-no-repeat bg-contain border rounded-lg shadow-md" style="background-image: url({{$product->images[0]}})" href="/product/{{$product->slug}}"></a>
-                
-                    <div class="w-56 -mt-10 overflow-hidden border rounded-lg shadow-lg bg-my_lt_grey md:w-64 dark:bg-my_dk_grey">
-                        <h3 class="py-2 font-bold tracking-wide text-center uppercase text-my_black dark:text-my_white">{{$product->name}}</h3>
-                
-                        <div class="flex items-center justify-between px-3 py-2">
-                            <span class="font-bold text-my_black dark:text-gray-200">{{Number::currency($product->price)}}</span>
-                            <button class="px-2 py-1 text-xs font-semibold uppercase transition-colors duration-300 transform rounded bg-my_dk_grey text-my_white hover:bg-my_lt_grey hover:border hover:border-my_dk_grey hover:text-my_black dark:hover:bg-gray-600 focus:bg-gray-700 dark:focus:bg-gray-600 focus:outline-none" wire:click="addToCart({{$product->id}})" wire:loading.remove wire:target="addToCart({{$product->id}})">Add to cart</button>
+                    <article class="flex flex-col items-center justify-center w-full h-full mx-auto" wire:key="{{$product->id}}">
+                        <a class="w-full h-64 bg-center bg-no-repeat bg-contain border rounded-lg shadow-md bg-lightest" style="background-image: url({{$product->images[0]}})" href="/product/{{$product->slug}}"></a>
+                    
+                        <div class="w-56 -mt-10 overflow-hidden border rounded-lg shadow-lg bg-light md:w-64">
+                            <h3 class="py-2 font-bold tracking-wide text-center uppercase text-darkest dark:text-lightest">{{$product->name}}</h3>
+                    
+                            <div class="flex items-center justify-between px-3 py-2">
+                                <span class="font-bold text-my_black dark:text-gray-200">{{Number::currency($product->price)}}</span>
+                                <button class="px-2 py-1 text-xs font-semibold uppercase transition-colors duration-300 transform rounded bg-mid focus:outline-none" wire:click="addToCart({{$product->id}})" wire:loading.remove wire:target="addToCart({{$product->id}})">Add to cart</button>
+                            </div>
+                            <span class="block mb-1 text-center" wire:loading wire:target="addToCart({{$product->id}})">Adding Item...</span>
                         </div>
-                        <span class="block mb-1 text-center" wire:loading wire:target="addToCart({{$product->id}})">Adding Item...</span>
-                    </div>
-                </article>
+                    </article>
                 @endforeach
             </div>
             {{-- Pagination --}}

@@ -1,5 +1,5 @@
 <!-- ========== FOOTER ========== -->
-<footer class="w-full px-4 py-10 mx-auto mt-auto border-t sm:px-6 lg:px-8 bg-mid border-t-dark dark:bg-dark">
+<footer class="w-full px-4 py-10 mx-auto border-t sm:px-6 lg:px-8 bg-mid border-t-dark dark:bg-dark">
   <div class="container mx-auto">
     <div class="sm:flex sm:justify-between sm:items-center">
       <div class="w-full text-center md:w-auto md:text-start">

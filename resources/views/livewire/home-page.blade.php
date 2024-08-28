@@ -1,8 +1,8 @@
 <div class="">
 {{-- Hero Section Start --}}
-<section class="w-full h-[45rem]">
-    <div class="grid items-center justify-center grid-cols-1 lg:grid-cols-[1fr_2fr]">
-        <div class="sm:h-full md:h-[45rem] mx-auto text-center grid place-items-center">
+<section class="w-full h-96 md:h-[45rem]">
+    <div class="xl:grid items-center justify-center grid-cols-1 xl:grid-cols-[1fr_2fr] relative">
+        <div class="h-96 md:h-[45rem] mx-auto text-center grid place-items-center absolute xl:relative inset-0 z-10">
           <div class="">
             <h1 class="text-3xl font-semibold text-dark dark:text-light lg:text-4xl">Shop at <span class="text-brand">Flex E-Store</span> for the cheapest and most exclusive products.</h1>
             <div class="py-3 mt-6">
@@ -10,7 +10,7 @@
             </div>
           </div>
         </div>
-        <div class="hidden lg:block h-[45rem]" id="banner"></div>
+        <div class="h-96 md:h-[45rem] absolute xl:relative inset-0" id="banner"></div>
     </div>
 </section>
   {{-- Hero Section End --}}
@@ -19,11 +19,11 @@
 <section class="w-full px-4 md:px-6 lg:px-8">
   <div class="container relative px-4 py-6 mx-auto overflow-hidden md:py-10">
     <x-main-heading>Top Brands</x-main-heading>
-    <div class="grid items-center justify-center grid-cols-2 gap-5 py-2 md:justify-between md:grid-cols-4 lg:grid-cols-8 auto-rows-[1fr]">
+    <div class="grid items-center justify-center grid-cols-2 md:gap-5 gap-3 py-2 md:justify-between md:grid-cols-4 xl:grid-cols-8 auto-rows-[1fr]">
       @foreach ($brands as $brand)
-        <a href="/products?filterBrands[0]={{$brand->id}}" wire:navigate class="w-full my-1 rounded-lg shadow-md md:w-40 bg-lightest dark:bg-dark" wire:key="{{$brand->id}}">
+        <a href="/products?filterBrands[0]={{$brand->id}}" wire:navigate class="w-full h-full my-1 rounded-lg shadow-md md:w-36 lg:w-40 xl:w-44 bg-lightest dark:bg-dark" wire:key="{{$brand->id}}">
           <div class="rounded-t-lg bg-lightest dark:shadow-xl dark:shadow-darkest">
-            <img src="{{url('storage', $brand->image)}}" alt="{{$brand->name}}" class="object-contain w-full rounded-t-lg md:h-20">
+            <img src="{{url('storage', $brand->image)}}" alt="{{$brand->name}}" class="object-contain w-full rounded-t-lg md:h-20 aspect-video">
           </div>
           <div class="p-5 text-center">
             <p class="text-2xl font-bold tracking-tight">{{$brand->name}}</p>
@@ -39,40 +39,33 @@
 <section class="w-full px-4 md:px-6 lg:px-8 bg-dark dark:bg-darkest">
     <div class="container py-5 mx-auto">
       <x-main-heading class="text-lightest">Featured Products</x-main-heading>
-      <!-- Grid -->
       <div class="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
         @foreach ($featureds as $featured)
-        <!-- Icon Block -->
-        <a href="/product/{{$featured->slug}}" class="flex flex-col justify-between text-center border border-dark rounded-xl md:p-5 dark:border-light bg-lightest dark:bg-dark" wire:key="{{$featured->id}}">
-          <!-- Icon -->
-          <div class="flex items-center justify-center mx-auto overflow-hidden rounded-lg bg-lightest">
-            <img src="{{url('storage',$featured->images[0])}}" alt="" class="object-contain w-full aspect-square">
-          </div>
-          <!-- End Icon -->
-        
-          <div class="mt-3">
-            <h3 class="text-sm font-semibold text-gray-800 sm:text-lg dark:text-neutral-200">
-              {{$featured->name}}
-            </h3>
-          </div>
-        </a>
-        <!-- End Icon Block -->
+          <a href="/product/{{$featured->slug}}" class="flex flex-col justify-between text-center border border-dark rounded-xl md:p-5 dark:border-light bg-lightest dark:bg-dark" wire:key="{{$featured->id}}">
+            <div class="flex items-center justify-center mx-auto overflow-hidden rounded-lg bg-lightest">
+              <img src="{{url('storage',$featured->images[0])}}" alt="" class="object-contain w-full aspect-square">
+            </div>
+            <div class="mt-3">
+              <h3 class="text-sm font-semibold sm:text-lg">
+                {{$featured->name}}
+              </h3>
+            </div>
+          </a>
         @endforeach
       </div>
-      <!-- End Grid -->
     </div>
 </section>
   {{-- Featured Section End --}}
 
   {{-- Testimonials Section Start --}}
-<section class="w-full px-4 py-10 bg-gray-100 sm:px-6 lg:px-8 lg:py-14">
+<section class="w-full px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
     <div class="container mx-auto">  
     <x-main-heading>What customers are saying</x-main-heading>
     <!-- Grid -->
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       
       <!-- Card -->
-      <div class="flex flex-col border border-gray-200 shadow-sm bg-lightest rounded-xl dark:bg-dark dark:border-neutral-700">
+      <div class="flex flex-col border border-gray-200 shadow-sm bg-lightest rounded-xl dark:bg-dark">
         <div class="flex-auto p-4 md:p-6">
           <x-rating rating="5"/>
           <p class="mt-3 text-base text-darkest sm:mt-6 md:text-xl dark:text-lightest"><em>
@@ -88,7 +81,7 @@
       <!-- End Card -->
   
       <!-- Card -->
-      <div class="flex flex-col border border-gray-200 shadow-sm bg-lightest rounded-xl dark:bg-dark dark:border-neutral-700">
+      <div class="flex flex-col border border-gray-200 shadow-sm bg-lightest rounded-xl dark:bg-dark">
         <div class="flex-auto p-4 md:p-6">
           <x-rating rating="3"/>
           <p class="mt-3 text-base text-darkest sm:mt-6 md:text-xl dark:text-lightest"><em>
@@ -104,7 +97,7 @@
       <!-- End Card -->
   
       <!-- Card -->
-      <div class="flex flex-col border border-gray-200 shadow-sm bg-lightest rounded-xl dark:bg-dark dark:border-neutral-700">
+      <div class="flex flex-col border border-gray-200 shadow-sm bg-lightest rounded-xl dark:bg-dark">
         <div class="flex-auto p-4 md:p-6">
           <x-rating rating="4"/>
           <p class="mt-3 text-base text-darkest sm:mt-6 md:text-xl dark:text-lightest"><em>
@@ -126,23 +119,28 @@
 </div>
 
 <script>
-  console.log(document.documentElement.getAttribute('class'));
-  const banner = document.getElementById('banner');
-  const images = [
+  //console.log(document.documentElement.getAttribute('class'));
+  var banner = document.getElementById('banner');
+  var images = [
       'https://images.unsplash.com/photo-1522115174737-2497162f69ec?q=80&w=2669&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'https://images.unsplash.com/photo-1486401899868-0e435ed85128?q=80&w=2370&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       'https://images.unsplash.com/photo-1458538977777-0549b2370168?q=80&w=2374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      'https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+      'https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      'https://images.unsplash.com/photo-1622866027662-14e3c5ee67e7?q=80&w=2456&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
       ]
-  let count = 0;
-  // banner.setAttribute("style",`background-image: url(${images[0]})`);
-  banner.setAttribute("style",`background: linear-gradient(to right, rgba(232, 237, 242,1),rgba(0,0,0,0.1)), url(${images[0]}) no-repeat center center / cover`);
-  banner.setAttribute("style",`background: -webkit-gradient(linear, left top, right top, from(rgba(232, 237, 242,1)),to(rgba(0,0,0,0.1))), url(${images[0]}) no-repeat center center / cover`);
+  var count = 0;
+  var currentTheme = [232,237,242];
+
+  currentTheme = (localStorage.theme === 'dark') ? [17,24,39] : [232,237,242];
+  
+  banner.setAttribute("style",`background: linear-gradient(to right, rgba(${currentTheme[0]},${currentTheme[1]},${currentTheme[2]},1) 20%,rgba(0,0,0,0.1)), url(${images[0]}) no-repeat center center / cover`);
+  banner.setAttribute("style",`background: -webkit-gradient(linear, left top, right top, from(rgba(${currentTheme[0]},${currentTheme[1]},${currentTheme[2]},1)),to(rgba(0,0,0,0.1))), url(${images[0]}) no-repeat center center / cover`);
   
   setInterval(() => {
+    currentTheme = (localStorage.theme === 'dark') ? [17,24,39] : [232,237,242];
     count++;
     if(count==images.length){count = 0;}
-    banner.setAttribute("style",`background: linear-gradient(to right, rgba(232, 237, 242,1),rgba(0,0,0,0.1)), url(${images[count]}) no-repeat center center / cover`);
-    banner.setAttribute("style",`background: -webkit-gradient(linear, left top, right top, from(rgba(232, 237, 242,1)),to(rgba(0,0,0,0.1))), url(${images[count]}) no-repeat center center / cover`);
+    banner.setAttribute("style",`background: linear-gradient(to right, rgba(${currentTheme[0]},${currentTheme[1]},${currentTheme[2]},1) 20%,rgba(0,0,0,0.1)), url(${images[count]}) no-repeat center center / cover`);
+    banner.setAttribute("style",`background: -webkit-gradient(linear, left top, right top, from(rgba(${currentTheme[0]},${currentTheme[1]},${currentTheme[2]},1)),to(rgba(0,0,0,0.1))), url(${images[count]}) no-repeat center center / cover`);
   }, 3000);
 </script>
