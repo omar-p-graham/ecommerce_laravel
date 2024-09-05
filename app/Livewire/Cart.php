@@ -9,11 +9,11 @@ use Livewire\Component;
 class Cart extends Component
 {
     public $cartItems = [];
-    public $grandTotal;
+    public $orderSummary;
 
     public function mount(){
         $this->cartItems = CartManagement::getCartItemsFromCookie();
-        $this->grandTotal = CartManagement::calculateGrandTotal($this->cartItems);
+        $this->orderSummary = CartManagement::calculateOrderSummary($this->cartItems);
     }
 
     public function render()
@@ -26,17 +26,17 @@ class Cart extends Component
 
     public function removeItemFromCart($productID){
         $this->cartItems = CartManagement::removeProductFromCart($productID);
-        $this->grandTotal = CartManagement::calculateGrandTotal($this->cartItems);
+        $this->orderSummary = CartManagement::calculateOrderSummary($this->cartItems);
         $this->dispatch('cart_count',totalProducts:count($this->cartItems))->to(Navbar::class);
     }
 
     public function increaseItemQuantity($productID){
         $this->cartItems = CartManagement::incrementItemQuantity($productID);
-        $this->grandTotal = CartManagement::calculateGrandTotal($this->cartItems);
+        $this->orderSummary = CartManagement::calculateOrderSummary($this->cartItems);
     }
 
     public function decreaseItemQuantity($productID){
         $this->cartItems = CartManagement::decrementItemQuantity($productID);
-        $this->grandTotal = CartManagement::calculateGrandTotal($this->cartItems);
+        $this->orderSummary = CartManagement::calculateOrderSummary($this->cartItems);
     }
 }

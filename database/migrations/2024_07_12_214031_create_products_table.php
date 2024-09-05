@@ -24,6 +24,7 @@ return new class extends Migration
             $table->boolean('is_featured')->default(false);
             $table->boolean('in_stock')->default(true);
             $table->boolean('on_sale')->default(false);
+            $table->decimal('sale_discount',4,2)->default(0);
             $table->timestamps();
         });
     }

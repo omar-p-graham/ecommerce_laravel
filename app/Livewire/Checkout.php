@@ -49,12 +49,13 @@ class Checkout extends Component
 
         $order = new Order();
         $order->user_id = auth()->user()->id;
-        $order->cost = CartManagement::calculateGrandTotal($cartItems);
+        $order->cost = CartManagement::calculateOrderSummary($cartItems)['cost'];
         $order->payment_status = 'pending';
         $order->status = 'new';
         $order->currency = 'usd';
-        $order->shipping_amount = 0;
+        $order->shipping_amount = CartManagement::calculateOrderSummary($cartItems)['shipping'];
         $order->shipping_method = 'none';
+        $order->tax = CartManagement::calculateOrderSummary($cartItems)['tax'];
         $order->notes = 'Order placed by '.auth()->user()->name;
 
         $address = new Address();
@@ -97,10 +98,10 @@ class Checkout extends Component
     public function render()
     {
         $items = CartManagement::getCartItemsFromCookie();
-        $grandTotal = CartManagement::calculateGrandTotal($items);
+        $orderSummary = CartManagement::calculateOrderSummary($items);
         return view('livewire.checkout',[
             'items' => $items,
-            'grandTotal' => $grandTotal
+            'orderSummary' => $orderSummary
         ])
         ->title('Checkout: Flex E-Store');
     }

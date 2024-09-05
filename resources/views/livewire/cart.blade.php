@@ -20,10 +20,17 @@
                       <td class="p-5 text-sm font-medium leading-6 whitespace-nowrap ">
                         <div class="flex items-center">
                           <img class="w-16 h-16 mr-4 border rounded-md bg-lightest border-dark" src="{{url('storage',$item['image'])}}" alt="{{$item['name']}}">
-                          <a href="/product/{{$item['slug']}}" class="font-semibold hover:underline">{{$item['name']}}</a>
+                          <a href="/product/{{$item['slug']}}" class="font-semibold truncate hover:underline">{{$item['name']}}</a>
                         </div>
                       </td>
-                      <td class="p-5 text-sm font-medium leading-6 whitespace-nowrap"> {{Number::currency($item['unit_amount'])}} </td>
+                      <td class="text-sm font-medium leading-6 whitespace-nowrap">
+                        <div class="flex items-center p-5 {{$item['discount']>0 ? 'text-green-700 dark:text-emerald-400' : ''}}">
+                          {{($item['discount'] > 0) ? Number::currency($item['unit_amount']-$item['discount']) : Number::currency($item['unit_amount'])}}
+                          @if ($item['discount'] > 0)
+                            <span class="ml-2 text-xs text-red-500 line-through dark:font-semibold">{{Number::currency($item['unit_amount'])}}</span>
+                          @endif
+                        </div>
+                      </td>
                       <td class="p-5 text-sm font-medium leading-6 whitespace-nowrap">
                         <div class="flex items-center">
                           <button class="flex p-2 mx-auto transition-all duration-500 border rounded-full border-mid hover:bg-mid dark:hover:bg-dark item-center dark:hover:text-lightest dark:group-hover/tr:border-dark" wire:click="decreaseItemQuantity({{$item['product_id']}})">
@@ -39,7 +46,14 @@
                           </button>
                         </div>
                       </td>
-                      <td class="p-5 text-sm font-medium leading-6 whitespace-nowrap"> {{Number::currency($item['totalAmount'])}} </td>
+                      <td class="text-sm font-medium leading-6 whitespace-nowrap">
+                         <div class="flex items-center p-5 {{$item['discount']>0 ? 'text-green-700 dark:text-emerald-400' : ''}}">
+                          {{($item['discount'] > 0) ? Number::currency($item['totalAmount']-$item['totalDiscount']) : Number::currency($item['totalAmount'])}}
+                          @if ($item['discount'] > 0)
+                            <span class="ml-2 text-xs text-red-500 line-through dark:font-semibold">{{Number::currency($item['totalAmount'])}}</span>
+                          @endif
+                        </div>
+                      </td>
                       <td class="p-5 ">
                           <div class="flex items-center gap-1">
                               <button class="flex p-2 mx-auto transition-all duration-500 rounded-full group/button hover:bg-red-500 item-center" wire:click="removeItemFromCart({{$item['product_id']}})">
@@ -66,20 +80,26 @@
             <h2 class="mb-4 text-lg font-semibold">Summary</h2>
             <div class="flex justify-between mb-2">
               <span>Subtotal</span>
-              <span>{{Number::currency($grandTotal)}}</span>
+              <span>{{Number::currency($orderSummary['cost'])}}</span>
             </div>
+            @if ($orderSummary['totalDiscount']>0)
+              <div class="flex justify-between mb-2">
+                <span>Discount</span>
+                <span>-{{Number::currency($orderSummary['totalDiscount'])}}</span>
+              </div> 
+            @endif
             <div class="flex justify-between mb-2">
               <span>Taxes</span>
-              <span>{{Number::currency($tax = $grandTotal*(rand(1,3)/1000))}}</span>
+              <span>{{Number::currency($orderSummary['tax'])}}</span>
             </div>
             <div class="flex justify-between mb-2">
               <span>Shipping</span>
-              <span>{{Number::currency($shipping = (($items) ? rand(0,10) : 0))}}</span>
+              <span>{{Number::currency($orderSummary['shipping'])}}</span>
             </div>
             <hr class="my-2">
             <div class="flex justify-between mb-2">
               <span class="font-semibold">Total</span>
-              <span class="font-semibold">{{Number::currency($grandTotal+$tax+$shipping)}}</span>
+              <span class="font-semibold">{{Number::currency($orderSummary['grandTotal'])}}</span>
             </div>
             @if ($items)
               <div class="w-full py-3 mt-5">

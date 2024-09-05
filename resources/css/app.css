@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html ::-webkit-scrollbar{width: 8px;}
+
+/* Light Mode Track */
+html ::-webkit-scrollbar-track{box-shadow: inset 0 0 5px #000000; border-radius: 10px;}
+/* Light Mode Handle */
+html ::-webkit-scrollbar-thumb{background: #111827; border-radius: 10px;}
+/* Light Mode Handle on hover */
+html ::-webkit-scrollbar-thumb:hover{background: #2C3549;}
+
+/* Dark Mode Track */
+html.dark ::-webkit-scrollbar-track{box-shadow: inset 0 0 5px #FFFFFF;}
+/* Dark Mode Handle */
+html.dark ::-webkit-scrollbar-thumb{background: #B5BBC7;}
+/* Dark Mode Handle on hover */
+html.dark ::-webkit-scrollbar-thumb:hover{background: #E8EDF2;}

@@ -64,7 +64,7 @@
                     x-transition:leave="transition ease-in duration-100"
                     x-transition:leave-start="opacity-100 scale-100"
                     x-transition:leave-end="opacity-0 scale-90" 
-                    class="right-0 z-20 w-48 py-2 mt-2 origin-top-right rounded-md shadow-xl md:absolute bg-lightest text-darkest dark:bg-darkest dark:text-lightest"
+                    class="right-0 z-20 w-48 py-2 mt-2 origin-top-right rounded-md shadow-xl md:absolute bg-lightest text-darkest dark:bg-dark dark:text-lightest"
                 >
                     <a href="/my-orders" wire:navigate class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">My Orders</a>
                     <a href="/account" wire:navigate class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">My Account</a>
@@ -98,7 +98,6 @@
             document.documentElement.classList.remove('dark')
             themeIcon.setAttribute('src','/images/moon.svg')
             localStorage.theme = 'light'
-            // return
         }else{
             document.documentElement.classList.add('dark')
             themeIcon.setAttribute('src','/images/sun.svg')
