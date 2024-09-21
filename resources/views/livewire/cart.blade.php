@@ -3,20 +3,20 @@
       <x-main-heading>My Cart</x-main-heading>
       <div class="flex flex-col gap-4 md:flex-row">
         <div class="md:w-3/4">
-          <div class="p-1 mb-4 overflow-x-auto shadow-md bg-lightest dark:bg-dark rounded-t-xl">
+          <div class="px-1 py-2 mb-4 overflow-x-auto shadow-md bg-lightest dark:bg-dark rounded-t-xl">
             <table class="min-w-full text-center rounded-t-xl">
               <thead>
-                  <tr class="bg-mid dark:bg-dark dark:border-b">
-                      <th scope="col" class="p-5 text-sm font-bold leading-6 text-left capitalize rounded-tl-xl">Product</th>
-                      <th scope="col" class="p-5 text-sm font-bold leading-6 capitalize">Price</th>
-                      <th scope="col" class="p-5 text-sm font-bold leading-6 capitalize">Quantity</th>
-                      <th scope="col" class="p-5 text-sm font-bold leading-6 capitalize">Total</th>
-                      <th scope="col" class="p-5 text-sm font-bold leading-6 capitalize rounded-tr-xl">Remove</th>
+                  <tr class="bg-mid dark:bg-darkest">
+                      <th scope="col" class="px-6 py-3 text-sm font-bold leading-6 text-left capitalize rounded-l-md">Product</th>
+                      <th scope="col" class="px-6 py-3 text-sm font-bold leading-6 capitalize">Price</th>
+                      <th scope="col" class="px-6 py-3 text-sm font-bold leading-6 capitalize">Quantity</th>
+                      <th scope="col" class="px-6 py-3 text-sm font-bold leading-6 capitalize">Total</th>
+                      <th scope="col" class="px-6 py-3 text-sm font-bold leading-6 capitalize rounded-r-md">Remove</th>
                   </tr>
               </thead>
               <tbody class="divide-y divide-mid">
                 @forelse ($items as $item)
-                  <tr class="transition-all duration-500 bg-transparent hover:bg-light dark:hover:bg-mid dark:hover:text-darkest group/tr">
+                  <tr class="transition-all duration-500 bg-transparent hover:bg-light dark:hover:bg-darkest group/tr">
                       <td class="p-5 text-sm font-medium leading-6 whitespace-nowrap ">
                         <div class="flex items-center">
                           <img class="w-16 h-16 mr-4 border rounded-md bg-lightest border-dark" src="{{url('storage',$item['image'])}}" alt="{{$item['name']}}">
@@ -48,9 +48,9 @@
                       </td>
                       <td class="text-sm font-medium leading-6 whitespace-nowrap">
                          <div class="flex items-center p-5 {{$item['discount']>0 ? 'text-green-700 dark:text-emerald-400' : ''}}">
-                          {{($item['discount'] > 0) ? Number::currency($item['totalAmount']-$item['totalDiscount']) : Number::currency($item['totalAmount'])}}
+                          {{($item['discount'] > 0) ? Number::currency($item['total_amount']-$item['total_discount']) : Number::currency($item['total_amount'])}}
                           @if ($item['discount'] > 0)
-                            <span class="ml-2 text-xs text-red-500 line-through dark:font-semibold">{{Number::currency($item['totalAmount'])}}</span>
+                            <span class="ml-2 text-xs text-red-500 line-through dark:font-semibold">{{Number::currency($item['total_amount'])}}</span>
                           @endif
                         </div>
                       </td>
@@ -66,9 +66,9 @@
                       </td>
                   </tr>
                   @empty
-                  <tr>
-                    <td colspan="5" class="py-4 font-bold text-center">There Are No Items In Your Cart</td>
-                  </tr>
+                    <tr>
+                      <td colspan="5" class="py-4 font-bold text-center">There Are No Items In Your Cart</td>
+                    </tr>
                   @endforelse
               </tbody>
             </table>
@@ -82,19 +82,15 @@
               <span>Subtotal</span>
               <span>{{Number::currency($orderSummary['cost'])}}</span>
             </div>
-            @if ($orderSummary['totalDiscount']>0)
+            @if ($orderSummary['total_discount']>0)
               <div class="flex justify-between mb-2">
                 <span>Discount</span>
-                <span>-{{Number::currency($orderSummary['totalDiscount'])}}</span>
+                <span>-{{Number::currency($orderSummary['total_discount'])}}</span>
               </div> 
             @endif
             <div class="flex justify-between mb-2">
-              <span>Taxes</span>
-              <span>{{Number::currency($orderSummary['tax'])}}</span>
-            </div>
-            <div class="flex justify-between mb-2">
               <span>Shipping</span>
-              <span>{{Number::currency($orderSummary['shipping'])}}</span>
+              <span>Free</span>
             </div>
             <hr class="my-2">
             <div class="flex justify-between mb-2">

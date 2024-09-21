@@ -56,11 +56,11 @@ class Products extends Component
             $this->products->latest();
         }elseif($this->sortBy=="name_asc"){
             $this->products->orderBy('name');
-        }elseif($this->sortBy=="name_asc"){
+        }elseif($this->sortBy=="name_desc"){
             $this->products->orderByDesc('name');
         }elseif($this->sortBy=="price_asc"){
             $this->products->orderBy('price');
-        }elseif($this->sortBy=="price_asc"){
+        }elseif($this->sortBy=="price_desc"){
             $this->products->orderByDesc('price');
         }
     }

@@ -19,12 +19,12 @@ class CartManagement{
 
         if($existingItem !== null){
             $cartItems[$existingItem]['quantity'] += $quantity; // increment the quantity of the item once it is already in the cart
-            $cartItems[$existingItem]['totalAmount'] = $cartItems[$existingItem]['unit_amount'] * $cartItems[$existingItem]['quantity']; // calculate the total price for the item
-            $cartItems[$existingItem]['totalDiscount'] = ($cartItems[$existingItem]['unit_amount'] * ($cartItems[$existingItem]['discount'])) * $cartItems[$existingItem]['quantity']; // calculate the total discount for the item
+            $cartItems[$existingItem]['total_amount'] = $cartItems[$existingItem]['unit_amount'] * $cartItems[$existingItem]['quantity']; // calculate the total price for the item
+            $cartItems[$existingItem]['total_discount'] = ($cartItems[$existingItem]['unit_amount'] * ($cartItems[$existingItem]['discount'])) * $cartItems[$existingItem]['quantity']; // calculate the total discount for the item
         }else{
             $product = Product::where('id',$product_id)->first(['id','name','slug','price','images','on_sale','sale_discount']);
             if($product){
-                $discount = ($product->price * ($product->sale_discount/100));
+                $discount = number_format($product->price * ($product->sale_discount/100),2);
                 $cartItems[] = [
                     'product_id' => $product->id,
                     'name' => $product->name,
@@ -33,8 +33,8 @@ class CartManagement{
                     'unit_amount' => $product->price,
                     'quantity' => $quantity,
                     'discount' => $discount,
-                    'totalAmount' => $product->price * $quantity,
-                    'totalDiscount' => $discount * $quantity
+                    'total_amount' => $product->price * $quantity,
+                    'total_discount' => $discount * $quantity
                 ];
             }
         }
@@ -83,8 +83,8 @@ class CartManagement{
         foreach ($cartItems as $key => $item) {
             if($item['product_id'] == $product_id){
                 $cartItems[$key]['quantity']++;
-                $cartItems[$key]['totalAmount'] = $cartItems[$key]['unit_amount'] * $cartItems[$key]['quantity'];
-                $cartItems[$key]['totalDiscount'] = ($cartItems[$key]['discount']) * $cartItems[$key]['quantity'];
+                $cartItems[$key]['total_amount'] = $cartItems[$key]['unit_amount'] * $cartItems[$key]['quantity'];
+                $cartItems[$key]['total_discount'] = ($cartItems[$key]['discount']) * $cartItems[$key]['quantity'];
             }
         }
 
@@ -100,8 +100,8 @@ class CartManagement{
             if($item['product_id'] == $product_id){
                 if($cartItems[$key]['quantity'] > 1){
                     $cartItems[$key]['quantity']--;
-                    $cartItems[$key]['totalAmount'] = $cartItems[$key]['unit_amount'] * $cartItems[$key]['quantity'];
-                    $cartItems[$key]['totalDiscount'] = ($cartItems[$key]['discount']) * $cartItems[$key]['quantity'];
+                    $cartItems[$key]['total_amount'] = $cartItems[$key]['unit_amount'] * $cartItems[$key]['quantity'];
+                    $cartItems[$key]['total_discount'] = ($cartItems[$key]['discount']) * $cartItems[$key]['quantity'];
                 }else{
                     self::removeProductFromCart($product_id);
                 }
@@ -114,23 +114,23 @@ class CartManagement{
 
     // calculate grand total
     static public function calculateOrderSummary($cartItems){
-        $cost = array_sum(array_column($cartItems, 'totalAmount'));
-        $totalDiscount = array_sum(array_column($cartItems, 'totalDiscount'));
-        $tax = $cost * .003;
+        $cost = array_sum(array_column($cartItems, 'total_amount'));
+        $total_discount = array_sum(array_column($cartItems, 'total_discount'));
+       /* $tax = $cost * .013;
         $shipping = 0;
 
         if($cost>0 && $cost<=100){
             $shipping = 10;
         }elseif ($cost>100 && $cost<300) {
             $shipping = 7;
-        }
+        }*/
 
         return [
             'cost' => $cost,
-            'tax' => $tax,
-            'shipping' => $shipping,
-            'totalDiscount' => $totalDiscount,
-            'grandTotal' => ($cost + $tax + $shipping) - $totalDiscount
+            /*'tax' => $tax,
+            'shipping' => $shipping,*/
+            'total_discount' => $total_discount,
+            'grandTotal' => $cost - $total_discount
         ];
     }
 }

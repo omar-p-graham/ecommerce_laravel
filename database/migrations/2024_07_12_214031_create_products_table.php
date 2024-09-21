@@ -19,12 +19,12 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('images')->nullable();
             $table->longText('description')->nullable();
-            $table->decimal('price',10,2);
+            $table->double('price');
             $table->boolean('is_active')->default(true);
             $table->boolean('is_featured')->default(false);
             $table->boolean('in_stock')->default(true);
             $table->boolean('on_sale')->default(false);
-            $table->decimal('sale_discount',4,2)->default(0);
+            $table->double('sale_discount')->default(0);
             $table->timestamps();
         });
     }

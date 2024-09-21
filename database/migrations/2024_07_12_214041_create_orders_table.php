@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->enum('status',['new','processing','shipped','delivered','canceled'])->default('new');
             $table->string('currency')->nullable();
-            $table->decimal('cost',10,2)->nullable();
-            $table->decimal('tax',10,2)->default(0);
-            $table->decimal('shipping_amount',10,2)->nullable();
+            $table->double('cost')->nullable();
+            /*$table->double('tax')->default(0);
+            $table->double('shipping_amount')->nullable();*/
             $table->string('payment_status')->nullable();
             $table->string('shipping_method')->nullable();
             $table->text('notes')->nullable();

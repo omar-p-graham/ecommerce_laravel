@@ -1,6 +1,6 @@
 <div class="w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
-<section class="flex items-center font-poppins dark:bg-gray-800 ">
-    <div class="justify-center flex-1 max-w-6xl px-4 py-4 mx-auto bg-white border rounded-md dark:border-gray-900 dark:bg-gray-900 md:py-10 md:px-10">
+<section class="flex items-center font-poppins">
+    <div class="justify-center flex-1 max-w-6xl px-4 py-4 mx-auto bg-white border rounded-md md:py-10 md:px-10 bg-lightest dark:bg-dark">
       <div>
         <h1 class="px-4 mb-8 text-2xl font-semibold tracking-wide text-gray-700 dark:text-gray-300 ">
           Thank you. Your order has been received. </h1>
@@ -46,11 +46,11 @@
                 </div>
                 <div class="flex items-center justify-between w-full">
                   <p class="text-base leading-4 text-gray-800 dark:text-gray-400">Discount</p>
-                  <p class="text-base leading-4 text-gray-600 dark:text-gray-400">00</p>
+                  <p class="text-base leading-4 text-gray-600 dark:text-gray-400">{{Number::currency($order->items->sum('total_discount'))}}</p>
                 </div>
                 <div class="flex items-center justify-between w-full">
                   <p class="text-base leading-4 text-gray-800 dark:text-gray-400">Shipping</p>
-                  <p class="text-base leading-4 text-gray-600 dark:text-gray-400">{{Number::currency($order->shipping_amount)}}</p>
+                  <p class="text-base leading-4 text-gray-600 dark:text-gray-400">Free</p>
                 </div>
               </div>
               <div class="flex items-center justify-between w-full">
@@ -70,7 +70,7 @@
                   </div>
                   <div class="flex flex-col items-center justify-start">
                     <p class="text-lg font-semibold leading-6 text-gray-800 dark:text-gray-400">
-                      Delivery<br><span class="text-sm font-normal">Delivery with 24 Hours</span>
+                      Delivery<br><span class="text-sm font-normal">Delivery within 3-10 days</span>
                     </p>
                   </div>
                 </div>
@@ -80,12 +80,8 @@
           </div>
         </div>
         <div class="flex items-center justify-start gap-4 px-4 mt-6 ">
-          <a href="/products" class="w-full px-4 py-2 text-center text-blue-500 border border-blue-500 rounded-md md:w-auto hover:text-white hover:bg-blue-600 dark:border-gray-700 dark:hover:bg-gray-700 dark:text-gray-300">
-            Go back shopping
-          </a>
-          <a href="/my-orders" class="w-full px-4 py-2 text-center bg-blue-500 rounded-md text-gray-50 md:w-auto dark:text-gray-300 hover:bg-blue-600 dark:hover:bg-gray-700 dark:bg-gray-800">
-            View My Orders
-          </a>
+          <x-secondary-link-button href="/products">Go back shopping</x-secondary-link-button>
+          <x-primary-link-button href="/my-orders">View My Orders</x-primary-link-button>
         </div>
       </div>
     </div>

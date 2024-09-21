@@ -72,13 +72,13 @@
               if ($order->status=="new") {
                 $statusClass = "bg-cyan-400";
               }elseif ($order->status=="processing") {
-                $statusClass = "bg-blue-500";
+                $statusClass = "bg-blue-500 text-lightest";
               }elseif ($order->status=="shipped") {
                 $statusClass = "bg-emerald-400";
               }elseif ($order->status=="delivered") {
-                $statusClass = "bg-green-700";
+                $statusClass = "bg-green-700 text-lightest";
               }elseif ($order->status=="canceled") {
-                $statusClass = "bg-red-500";
+                $statusClass = "bg-red-500 text-lightest";
               }
             @endphp
             <div class="flex items-center justify-center mt-1 gap-x-2">
@@ -109,7 +109,7 @@
               }elseif ($order->payment_status=="paid") {
                 $paymentClass = "bg-green-700 text-lightest";
               }elseif ($order->payment_status=="failed") {
-                $paymentClass = "bg-red-500";
+                $paymentClass = "bg-red-500 text-lightest";
               }
             @endphp
             <div class="flex items-center justify-center mt-1 gap-x-2">
@@ -128,10 +128,10 @@
           <table class="w-full">
             <thead>
               <tr class="text-center bg-mid dark:bg-darkest">
-                <th class="px-6 py-3 text-xs font-medium text-left uppercase rounded-tl-xl">Product</th>
+                <th class="px-6 py-3 text-xs font-medium text-left uppercase rounded-l-md">Product</th>
                 <th class="px-6 py-3 text-xs font-medium uppercase">Price</th>
                 <th class="px-6 py-3 text-xs font-medium uppercase">Quantity</th>
-                <th class="px-6 py-3 text-xs font-medium uppercase rounded-tr-xl">Total</th>
+                <th class="px-6 py-3 text-xs font-medium uppercase rounded-r-md">Total</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-mid">
@@ -140,14 +140,29 @@
                   <td class="py-4">
                     <div class="flex items-center">
                       <img class="w-16 h-16 mr-4" src="{{url('storage',$item->product->images[0])}}" alt="{{$item->product->name}}">
-                      <span class="font-semibold">{{$item->product->name}}</span>
+                      <span class="font-semibold truncate">{{$item->product->name}}</span>
                     </div>
                   </td>
-                  <td class="py-4">{{Number::currency($item->unit_amount)}}</td>
+                  <td>
+                    <div class="flex items-center py-4 justify-center {{$item->discount>0 ? 'text-green-700 dark:text-emerald-400' : ''}}">
+                      {{Number::currency($item->unit_amount - ($item->unit_amount*($item->discount/100)))}}
+                      @if ($item['discount'] > 0)
+                        <span class="ml-2 text-xs text-red-500 line-through dark:font-semibold">{{Number::currency($item->unit_amount)}}</span>
+                      @endif
+                    </div>
+                  </td>
                   <td class="py-4">
                     <span class="w-8 text-center">{{$item->quantity}}</span>
                   </td>
-                  <td class="py-4">{{Number::currency($item->total_amount)}}</td>
+                  {{-- <td class="py-4">{{Number::currency($item->total_amount)}}</td> --}}
+                  <td>
+                    <div class="flex items-center py-4 justify-center {{$item->discount>0 ? 'text-green-700 dark:text-emerald-400' : ''}}">
+                      {{Number::currency($item->total_amount)}}
+                      @if ($item['discount'] > 0)
+                        <span class="ml-2 text-xs text-red-500 line-through dark:font-semibold">{{Number::currency($item->unit_amount*$item->quantity)}}</span>
+                      @endif
+                    </div>
+                  </td>
                 </tr>
               @endforeach
             </tbody>
@@ -176,17 +191,13 @@
             <span>{{Number::currency($order->cost)}}</span>
           </div>
           <div class="flex justify-between mb-2">
-            <span>Taxes</span>
-            <span>{{Number::currency($order->tax)}}</span>
-          </div>
-          <div class="flex justify-between mb-2">
             <span>Shipping</span>
-            <span>{{Number::currency($order->shipping_amount)}}</span>
+            <span>Free</span>
           </div>
           <hr class="my-2">
           <div class="flex justify-between mb-2">
             <span class="font-semibold">Grand Total</span>
-            <span class="font-semibold">{{Number::currency($order->cost + $order->tax + $order->shipping_amount)}}</span>
+            <span class="font-semibold">{{Number::currency($order->cost)}}</span>
           </div>
         </div>
       </div>

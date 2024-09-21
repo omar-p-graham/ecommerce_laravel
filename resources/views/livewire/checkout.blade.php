@@ -130,13 +130,15 @@
 					<span>Subtotal</span>
 					<span>{{Number::currency($orderSummary['cost'])}}</span>
 				</div>
-				<div class="flex justify-between mb-2">
-					<span>Taxes</span>
-					<span>{{Number::currency($orderSummary['tax'])}}</span>
-				</div>
+				@if ($orderSummary['total_discount']>0)
+				  <div class="flex justify-between mb-2">
+					<span>Discount</span>
+					<span>-{{Number::currency($orderSummary['total_discount'])}}</span>
+				  </div> 
+				@endif
 				<div class="flex justify-between mb-2">
 					<span>Shipping</span>
-					<span>{{Number::currency($orderSummary['shipping'])}}</span>
+					<span>Free</span>
 				</div>
 				<hr class="my-2">
 				<div class="flex justify-between mb-2">
@@ -147,7 +149,19 @@
 					<div class="w-full py-3 mt-5">
 						<x-primary-button type="submit" class="block w-full text-center">
 							<span wire:loading.remove wire:target="submitOrder">Place Order</span>
-							<span wire:loading wire:target="submitOrder">Processing...</span>
+							<span wire:loading wire:target="submitOrder" class="flex items-center justify-center">
+								<svg class='w-4 h-4 mr-1 stroke-darkest animate-spin' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+									<g clip-path='url(#clip0_9023_61563_1)'>
+									  <path d='M14.6437 2.05426C11.9803 1.2966 9.01686 1.64245 6.50315 3.25548C1.85499 6.23817 0.504864 12.4242 3.48756 17.0724C6.47025 21.7205 12.6563 23.0706 17.3044 20.088C20.4971 18.0393 22.1338 14.4793 21.8792 10.9444' stroke='stroke-current' stroke-width='1.4' stroke-linecap='round' class='my-path'></path>
+									</g>
+									<defs>
+									  <clipPath id='clip0_9023_61563_1'>
+										<rect width='24' height='24' fill='white'></rect>
+									  </clipPath>
+									</defs>
+								</svg>
+								Processing...
+							</span>
 						</x-primary-button>
 					</div>
 				@endif
@@ -163,12 +177,18 @@
 									</img>
 								</div>
 								<div class="grid flex-1 min-w-0 ms-4">
-									<p class="text-sm font-medium truncate">
+									<div class="text-sm font-medium truncate">
 										{{$item['name']}}
-									</p>
-									<p class="flex justify-between text-sm">
-										<span>{{$item['quantity']}}</span> <span>{{Number::currency($item['totalAmount'])}}</span>
-									</p>
+									</div>
+									<div class="flex justify-between text-sm">
+										<div>X{{$item['quantity']}}</div>
+										<div class="flex">
+											<span class="mr-1">{{Number::currency($item['total_amount']-$item['total_discount'])}}</span>
+											@if($item['total_discount']>0)
+												<span class="text-red-500 line-through">{{Number::currency($item['total_amount'])}}</span>
+											@endif
+										</div>
+									</div>
 								</div>
 							</div>
 						</li>

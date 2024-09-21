@@ -15,6 +15,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -23,6 +24,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
+use Number;
 
 class ProductResource extends Resource
 {
@@ -94,7 +96,19 @@ class ProductResource extends Resource
                         Toggle::make('is_featured')
                             ->required(),
                         Toggle::make('on_sale')
-                            ->required()
+                            ->live(onBlur:true)
+                            ->afterStateUpdated(function(string $state, Set $set){
+                                if($state !== true){
+                                    $set('sale_discount',0);
+                                }
+                            })
+                            ->required(),
+                        TextInput::make('sale_discount')
+                            ->label('Sale Discount (%)')
+                            ->numeric()
+                            ->default(0)
+                            ->disabled(fn (Get $get) => $get('on_sale')===false)
+                            ->required(fn (Get $get) => $get('on_sale')===true)
                     ])
                 ])->columns(1)
             ]);
@@ -126,6 +140,9 @@ class ProductResource extends Resource
                     ->boolean(),
                 Tables\Columns\IconColumn::make('on_sale')
                     ->boolean(),
+                Tables\Columns\TextColumn::make('sale_discount')
+                    ->label('Sale Discount (%)')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

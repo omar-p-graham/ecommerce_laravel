@@ -115,9 +115,10 @@ class OrderResource extends Resource
                                     ->required()
                                     ->distinct()
                                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
-                                    ->columnSpan(4)
+                                    ->columnSpan(5)
                                     ->reactive()
                                     ->afterStateUpdated(fn($state, Set $set) => $set('unit_amount', Product::find($state)?->price ?? 0))
+                                    ->afterStateUpdated(fn($state, Set $set) => $set('discount', Product::find($state)?->sale_discount ?? 0))
                                     ->afterStateUpdated(fn($state, Set $set) => $set('total_amount', Product::find($state)?->price ?? 0))
                                     ->afterStateUpdated(fn($state, Set $set, Get $get) => $set('total_amount', $get('quantity') * $get('unit_amount'))),
                                 TextInput::make('quantity')
@@ -125,34 +126,74 @@ class OrderResource extends Resource
                                     ->required()
                                     ->default(1)
                                     ->minValue(1)
-                                    ->columnSpan(2)
+                                    ->columnSpan(1)
                                     ->reactive()
-                                    ->afterStateUpdated(fn($state, Set $set, Get $get) => $set('total_amount', $state * $get('unit_amount'))),
+                                    ->afterStateUpdated(fn($state, Set $set, Get $get) => $set('total_amount', Number::format($state * ($get('unit_amount') - ($get('unit_amount')*($get('discount')/100))),2))),
                                 TextInput::make('unit_amount')
                                     ->required()
                                     ->numeric()
                                     ->disabled()
                                     ->dehydrated()
-                                    ->columnSpan(3),
+                                    ->columnSpan(2),
+                                TextInput::make('discount')
+                                    ->label('Discount (%)')
+                                    ->required()
+                                    ->numeric()
+                                    ->disabled()
+                                    ->dehydrated()
+                                    ->columnSpan(2),
                                 TextInput::make('total_amount')
                                     ->numeric()
                                     ->disabled()
                                     ->dehydrated()
                                     ->required()
-                                    ->columnSpan(3)
+                                    ->columnSpan(2)
                             ])->columns(12),
                             
-                            Placeholder::make('shipping_amount_placeholder')
+                            /*Placeholder::make('shipping_amount_placeholder')
                                 ->label('Shipping')
                                 ->content(function(Get $get, Set $set){
-                                    $shipping = $get('shipping_amount');
-                                    if(empty($shipping) && $shipping!== 0){$shipping = rand(0,10);}
+                                    $total = 0;
+                                    $shipping = $get('shipping_amount') ?? 0;
+
+                                    if(!$repeaters = $get('items')){return $total;} //if there are no items, the total is 0
+                                    foreach($repeaters as $key => $repeater){ //add the total amount of each order item
+                                        $total += $get("items.{$key}.total_amount");
+                                    }
+
+                                    if($total>0 && $total<=100){
+                                        $shipping = 10;
+                                    }elseif ($total>100 && $total<300) {
+                                        $shipping = 7;
+                                    }else{
+                                        $shipping=0;
+                                    }
+
                                     if(!$repeaters = $get('items')){return $shipping=0;} //if there are no items, the total is 0
                                     $set('shipping_amount',$shipping);
                                     return Number::currency($shipping);
                                 }),
                             Hidden::make('shipping_amount')
                                 ->default(0),
+                            Placeholder::make('tax_placeholder')
+                                ->label('Tax')
+                                ->content(function(Get $get, Set $set){
+                                    $total = 0;
+                                    $tax = $get('tax') ?? 0;
+
+                                    if(!$repeaters = $get('items')){return $total;} //if there are no items, the total is 0
+                                    foreach($repeaters as $key => $repeater){ //add the total amount of each order item
+                                        $total += $get("items.{$key}.total_amount");
+                                    }
+
+                                    $tax = $total * .013;
+                                    
+                                    if(!$repeaters = $get('items')){return $tax=0;} //if there are no items, the total is 0
+                                    $set('tax',$tax);
+                                    return Number::currency($tax);
+                                }),
+                            Hidden::make('tax')
+                                ->default(0),*/
                             Placeholder::make('cost_placeholder')
                                 ->label('Grand Total')
                                 ->content(function(Get $get, Set $set){
@@ -185,9 +226,14 @@ class OrderResource extends Resource
                         'paid' => 'Paid',
                         'failed' => 'Failed'
                     ]),
-                TextColumn::make('shipping_method')
+                SelectColumn::make('shipping_method')
                     ->searchable()
-                    ->formatStateUsing(fn(string $state)=> strtoupper($state)),
+                    ->options([
+                        'fedex' => 'FedEx',
+                        'dhl' => 'DHL',
+                        'ups' => 'UPS',
+                        'usps' => 'USPS'
+                    ]),
                 SelectColumn::make('status')
                     ->searchable()
                     ->options([
@@ -204,10 +250,13 @@ class OrderResource extends Resource
                     ->numeric()
                     ->money()
                     ->sortable(),
-                TextColumn::make('shipping_amount')
+                /*TextColumn::make('shipping_amount')
                     ->numeric()
                     ->sortable()
                     ->money(),
+                TextColumn::make('tax')
+                    ->numeric()
+                    ->money(),*/
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

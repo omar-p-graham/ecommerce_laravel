@@ -32,30 +32,36 @@ class Checkout extends Component
         ]);
 
         $cartItems = CartManagement::getCartItemsFromCookie();
+        $orderSummary = CartManagement::calculateOrderSummary($cartItems);
         $lineItems = [];
 
         foreach($cartItems as $item){
             $lineItems[] = [
                 'price_data' => [
                     'currency' => 'usd',
-                    'unit_amount' => $item['price'] * 100, //The price has to be multiplied by 100 to remove any decimals so that it can be processed by STRIPE
+                    'unit_amount' => ($item['discount']===0) ? $item['unit_amount'] * 100 : ($item['unit_amount']-$item['discount']) * 100, //The price has to be multiplied by 100 to remove any decimals so that it can be processed by STRIPE
                     'product_data' => [
                         'name' => $item['name'],
                     ]
                 ],
-                'quantity' => $item['quantity']
+                'quantity' => $item['quantity'],
+                /*'tax_rates' => [
+                    'display_name' => 'Sales Tax',
+                    'percentage' => 1.3,
+                    'inclusive' => false
+                ]*/
             ];
         };
 
         $order = new Order();
         $order->user_id = auth()->user()->id;
-        $order->cost = CartManagement::calculateOrderSummary($cartItems)['cost'];
+        $order->cost = $orderSummary['cost'];
         $order->payment_status = 'pending';
         $order->status = 'new';
         $order->currency = 'usd';
-        $order->shipping_amount = CartManagement::calculateOrderSummary($cartItems)['shipping'];
+        // $order->shipping_amount = $orderSummary['shipping'];
         $order->shipping_method = 'none';
-        $order->tax = CartManagement::calculateOrderSummary($cartItems)['tax'];
+        // $order->tax = $orderSummary['tax'];
         $order->notes = 'Order placed by '.auth()->user()->name;
 
         $address = new Address();
@@ -73,17 +79,50 @@ class Checkout extends Component
             'customer_email' => auth()->user()->email,
             'line_items' => $lineItems,
             'mode' => 'payment',
+            /*'shipping_options' => [
+                'shipping_rate_data' => [
+                    'display_name' => 'Standard',
+                    'type' => 'fixed_amount',
+                    'fixed_amount' => [
+                        'amount' => $orderSummary['shipping']*100,
+                        'currency' => 'usd'
+                    ],
+                    'delivery_estimate' => [
+                        'maximum' => [
+                            'unit' => 'day',
+                            'value' => 10
+                        ],
+                        'minimum' => [
+                            'unit' => 'day',
+                            'value' => 3
+                        ]
+                    ]
+                ]
+            ],*/
             'success_url' => route('order-success').'?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('order-cancel'),
         ]);
 
         $redirectUrl = $sessionCheckout->url;
-
+        
         $order->save();
         $address->order_id = $order->id;
         $address->save();
 
-        $order->items()->createMany($cartItems);
+        $sessionCheckout['cancel_url'] .= '?order_id='.$order->id;
+        // dd($cartItems);
+
+        foreach($cartItems as $item){
+            $items[] = [
+                'product_id' => $item['product_id'],
+                'quantity' => $item['quantity'],
+                'unit_amount' => $item['unit_amount'],
+                'total_discount' => $item['total_discount'],
+                'total_amount' => $item['total_amount']
+            ];
+        }
+
+        $order->items()->createMany($items);
         CartManagement::clearCookie();
         return redirect($redirectUrl);
     }
