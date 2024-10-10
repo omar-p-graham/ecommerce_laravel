@@ -1,6 +1,7 @@
 <?php
 
 use App\Helpers\CartManagement;
+use App\Livewire\Account;
 use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\ResetPassword;
@@ -37,6 +38,7 @@ Route::middleware('auth')->group(function (){
     Route::get('/checkout', Checkout::class);
     Route::get('/checkout-success', CheckoutSuccess::class)->name('order-success');
     Route::get('/checkout-cancel', CheckoutCancel::class)->name('order-cancel');
+    Route::get('/profile',Account::class);
     Route::get('logout',function(){
         auth()->logout();
         CartManagement::clearCookie();

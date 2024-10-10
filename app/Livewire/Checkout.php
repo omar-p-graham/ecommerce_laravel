@@ -55,7 +55,7 @@ class Checkout extends Component
 
         $order = new Order();
         $order->user_id = auth()->user()->id;
-        $order->cost = $orderSummary['cost'];
+        $order->cost = $orderSummary['cost'] - $orderSummary['total_discount'];
         $order->payment_status = 'pending';
         $order->status = 'new';
         $order->currency = 'usd';
@@ -117,8 +117,8 @@ class Checkout extends Component
                 'product_id' => $item['product_id'],
                 'quantity' => $item['quantity'],
                 'unit_amount' => $item['unit_amount'],
-                'total_discount' => $item['total_discount'],
-                'total_amount' => $item['total_amount']
+                'unit_discount' => $item['discount'],
+                'total_amount' => $item['total_amount'] - $item['total_discount']
             ];
         }
 

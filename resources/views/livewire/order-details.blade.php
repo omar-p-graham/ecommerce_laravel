@@ -135,7 +135,15 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-mid">
+              @php
+                $total_discount = 0;
+                $sub_total = 0;
+              @endphp
               @foreach ($order->items as $item)
+                @php
+                  $total_discount += $item->unit_discount * $item->quantity;
+                  $sub_total += $item->unit_amount * $item->quantity;
+                @endphp
                 <tr class="text-center" wire:key="{{$item->id}}">
                   <td class="py-4">
                     <div class="flex items-center">
@@ -144,9 +152,9 @@
                     </div>
                   </td>
                   <td>
-                    <div class="flex items-center py-4 justify-center {{$item->discount>0 ? 'text-green-700 dark:text-emerald-400' : ''}}">
-                      {{Number::currency($item->unit_amount - ($item->unit_amount*($item->discount/100)))}}
-                      @if ($item['discount'] > 0)
+                    <div class="flex items-center py-4 justify-center {{$item->unit_discount>0 ? 'text-green-700 dark:text-emerald-400' : ''}}">
+                      {{Number::currency($item->unit_amount - $item->unit_discount)}}
+                      @if ($item['unit_discount'] > 0)
                         <span class="ml-2 text-xs text-red-500 line-through dark:font-semibold">{{Number::currency($item->unit_amount)}}</span>
                       @endif
                     </div>
@@ -156,9 +164,9 @@
                   </td>
                   {{-- <td class="py-4">{{Number::currency($item->total_amount)}}</td> --}}
                   <td>
-                    <div class="flex items-center py-4 justify-center {{$item->discount>0 ? 'text-green-700 dark:text-emerald-400' : ''}}">
+                    <div class="flex items-center py-4 justify-center {{$item->unit_discount>0 ? 'text-green-700 dark:text-emerald-400' : ''}}">
                       {{Number::currency($item->total_amount)}}
-                      @if ($item['discount'] > 0)
+                      @if ($item['unit_discount'] > 0)
                         <span class="ml-2 text-xs text-red-500 line-through dark:font-semibold">{{Number::currency($item->unit_amount*$item->quantity)}}</span>
                       @endif
                     </div>
@@ -188,8 +196,14 @@
           <h2 class="mb-4 text-lg font-semibold">Summary</h2>
           <div class="flex justify-between mb-2">
             <span>Subtotal</span>
-            <span>{{Number::currency($order->cost)}}</span>
+            <span>{{Number::currency($sub_total)}}</span>
           </div>
+          @if ($order->items()->sum('unit_discount')>0)
+            <div class="flex justify-between mb-2">
+              <span>Discount</span>
+              <span>-{{Number::currency($total_discount)}}</span>
+            </div> 
+          @endif
           <div class="flex justify-between mb-2">
             <span>Shipping</span>
             <span>Free</span>

@@ -118,9 +118,9 @@ class OrderResource extends Resource
                                     ->columnSpan(5)
                                     ->reactive()
                                     ->afterStateUpdated(fn($state, Set $set) => $set('unit_amount', Product::find($state)?->price ?? 0))
-                                    ->afterStateUpdated(fn($state, Set $set) => $set('discount', Product::find($state)?->sale_discount ?? 0))
+                                    ->afterStateUpdated(fn($state, Set $set) => $set('unit_discount', number_format((Product::find($state)?->sale_discount/100)*Product::find($state)?->price,2,'.','') ?? 0))
                                     ->afterStateUpdated(fn($state, Set $set) => $set('total_amount', Product::find($state)?->price ?? 0))
-                                    ->afterStateUpdated(fn($state, Set $set, Get $get) => $set('total_amount', $get('quantity') * $get('unit_amount'))),
+                                    ->afterStateUpdated(fn($state, Set $set, Get $get) => $set('total_amount', number_format($get('quantity') * ($get('unit_amount')-$get('unit_discount')),2,'.',''))),
                                 TextInput::make('quantity')
                                     ->numeric()
                                     ->required()
@@ -128,15 +128,16 @@ class OrderResource extends Resource
                                     ->minValue(1)
                                     ->columnSpan(1)
                                     ->reactive()
-                                    ->afterStateUpdated(fn($state, Set $set, Get $get) => $set('total_amount', Number::format($state * ($get('unit_amount') - ($get('unit_amount')*($get('discount')/100))),2))),
+                                    ->afterStateUpdated(fn($state, Set $set) => ($state==null || $state=='' || $state<1)? $set('quantity',1):'')
+                                    ->afterStateUpdated(fn($state, Set $set, Get $get) => $set('total_amount', number_format($state * ($get('unit_amount')-$get('unit_discount')),2,'.',''))),
                                 TextInput::make('unit_amount')
                                     ->required()
                                     ->numeric()
                                     ->disabled()
                                     ->dehydrated()
                                     ->columnSpan(2),
-                                TextInput::make('discount')
-                                    ->label('Discount (%)')
+                                TextInput::make('unit_discount')
+                                    ->label('Unit Discount ($)')
                                     ->required()
                                     ->numeric()
                                     ->disabled()

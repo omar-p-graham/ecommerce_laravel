@@ -67,7 +67,7 @@
                     class="right-0 z-20 w-48 py-2 mt-2 origin-top-right rounded-md shadow-xl md:absolute bg-lightest text-darkest dark:bg-dark dark:text-lightest"
                 >
                     <a href="/my-orders" wire:navigate class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">My Orders</a>
-                    <a href="/account" wire:navigate class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">My Account</a>
+                    <a href="/profile" wire:navigate class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">My Account</a>
                     <a href="/logout" wire:navigate class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-300 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">Sign Out</a>
                 </div>
             </div>

@@ -81,7 +81,7 @@ class Products extends Component
         $this->filter_products();
 
         return view('livewire.products',[
-            'products' => $this->products->paginate(25),
+            'products' => $this->products->paginate(20),
             'brands' => Brand::where('is_active',1)->get(['id','name','slug']),
             'categories' => Category::where('is_active',1)->get(['id','name','slug']),
         ])

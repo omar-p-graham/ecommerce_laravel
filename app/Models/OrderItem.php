@@ -15,7 +15,7 @@ class OrderItem extends Model
         'quantity',
         'unit_amount',
         'total_amount',
-        'total_discount'
+        'unit_discount'
     ];
 
     public function order(){
